@@ -566,6 +566,7 @@ body.no-scroll { overflow: hidden; }
   overflow: hidden;
 }
 .lightbox__stage img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.lightbox__stage video { width: 100%; height: 100%; object-fit: contain; display: block; background: #000; }
 .lightbox__placeholder svg { width: 3rem; height: 3rem; color: var(--ink-soft); opacity: .6; }
 .lightbox__thumbs { display: flex; gap: .5rem; margin-top: .7rem; flex-wrap: wrap; }
 .lightbox__thumb {
@@ -578,8 +579,17 @@ body.no-scroll { overflow: hidden; }
   cursor: pointer;
   background: var(--brand-soft);
 }
-.lightbox__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.lightbox__thumb img, .lightbox__thumb video { width: 100%; height: 100%; object-fit: cover; display: block; }
 .lightbox__thumb.is-active { border-color: var(--brand-deep); }
+.lightbox__thumb.is-video { position: relative; }
+.lightbox__thumb.is-video::after {
+  content: "►";
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  color: #fff; font-size: 1.1rem;
+  text-shadow: 0 1px 4px rgba(0,0,0,.7);
+  pointer-events: none;
+}
 .lightbox__info { display: flex; flex-direction: column; }
 .lightbox__title { margin: .2rem 0 .5rem; }
 .lightbox__material, .lightbox__size { color: var(--ink-soft); margin: 0 0 .2rem; }

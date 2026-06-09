@@ -140,13 +140,18 @@ function setFooterYear() {
     '<div class="lightbox__placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">' +
     '<rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.6"/><path d="M21 15l-5-5L5 21"/></svg></div>';
 
+  function isVideo(src) { return /\.(mp4|webm|ogv|mov)$/i.test(src.split('#')[0].split('?')[0]); }
+
+  // Returns the painting's media as {src, video} objects. A data-images entry
+  // that points at a video file (.mp4, .webm…) becomes a playable video slide.
   function imagesFor(card) {
     var list = [];
     var main = card.querySelector('img');
     if (main && main.getAttribute('src')) list.push(main.getAttribute('src'));
     var data = card.getAttribute('data-images');
     if (data) data.split(',').forEach(function (s) { s = s.trim(); if (s) list.push(s); });
-    return list.filter(function (v, i) { return list.indexOf(v) === i; }); // de-dupe
+    list = list.filter(function (v, i) { return list.indexOf(v) === i; }); // de-dupe
+    return list.map(function (src) { return { src: src, video: isVideo(src) }; });
   }
 
   function copy(el, src) { el.textContent = src ? src.textContent.trim() : ''; }
@@ -157,8 +162,14 @@ function setFooterYear() {
     copy(fields.price,    card.querySelector('.art-price'));
   }
 
+  function slideHTML(m) {
+    return m.video
+      ? '<video src="' + m.src + '" controls autoplay loop muted playsinline></video>'
+      : '<img src="' + m.src + '" alt="">';
+  }
+
   function showCurrent() {
-    stage.innerHTML = imgs.length ? '<img src="' + imgs[imgIndex] + '" alt="">' : PLACEHOLDER;
+    stage.innerHTML = imgs.length ? slideHTML(imgs[imgIndex]) : PLACEHOLDER;
     var ts = thumbs.querySelectorAll('.lightbox__thumb');
     for (var k = 0; k < ts.length; k++) ts[k].classList.toggle('is-active', k === imgIndex);
   }
@@ -172,8 +183,12 @@ function setFooterYear() {
     imgIndex = 0;
     var many = imgs.length > 1;
     prevBtn.hidden = nextBtn.hidden = !many;
-    thumbs.innerHTML = many ? imgs.map(function (src, idx) {
-      return '<button class="lightbox__thumb" type="button" data-index="' + idx + '"><img src="' + src + '" alt=""></button>';
+    thumbs.innerHTML = many ? imgs.map(function (m, idx) {
+      var inner = m.video
+        ? '<video src="' + m.src + '#t=0.1" muted playsinline preload="metadata"></video>'
+        : '<img src="' + m.src + '" alt="">';
+      return '<button class="lightbox__thumb' + (m.video ? ' is-video' : '') + '" type="button" data-index="' + idx +
+        '" aria-label="' + (m.video ? 'Vídeo / Video' : 'Foto / Photo') + '">' + inner + '</button>';
     }).join('') : '';
     showCurrent();
     lb.removeAttribute('hidden');
@@ -182,6 +197,7 @@ function setFooterYear() {
   }
   function close() {
     lb.setAttribute('hidden', '');
+    stage.innerHTML = ''; // removes any playing <video> so its audio stops
     document.body.classList.remove('no-scroll');
     openCard = -1;
     if (lastFocus && lastFocus.focus) lastFocus.focus();
