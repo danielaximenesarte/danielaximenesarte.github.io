@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/styles.css?v=2" />
+  <link rel="stylesheet" href="/css/styles.css?v=3" />
 </head>
 <body class="gallery-page">
 
@@ -45,7 +45,11 @@
   <section class="section">
     <div class="container">
       <div class="gallery-grid">
-        <!-- Copy one of these <article> blocks for each new piece -->
+        <!-- Copy one of these <article> blocks for each new piece.
+             Clicking a card opens a window with its title, info, description and photos.
+             • Main photo: replace the .img-placeholder <div> with <img src="/assets/piece-1.jpg" alt="...">
+             • Extra photos (thumbnails in the window): add a data-images attribute to the
+               <article>, e.g. <article class="art-card reveal" data-images="/assets/piece-1b.jpg, /assets/piece-1c.jpg"> -->
         <article class="art-card reveal">
           <div class="img-placeholder"><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.6"/><path d="M21 15l-5-5L5 21"/></svg><span data-pt="Adicione sua obra">Add your artwork</span></div></div>
           <div class="art-body"><h3 data-pt="Peça Um">Piece One</h3><p class="art-meta" data-pt="Técnica · tamanho">Medium · size</p><p class="art-desc" data-pt="A descrição desta peça vai aqui.">Description of this piece goes here.</p></div>
@@ -94,6 +98,6 @@
     </div>
   </footer>
 
-  <script src="/js/main.js?v=2"></script>
+  <script src="/js/main.js?v=3"></script>
 </body>
 </html>
