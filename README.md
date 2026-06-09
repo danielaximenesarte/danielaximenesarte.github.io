@@ -29,7 +29,7 @@ load over http rather than from a file.)
   and paste it; change the placeholder to an `<img>` and edit the text.
 - **Change the colors** → open `css/styles.css` and edit the variables at the top
   (`:root`). The main color is `--brand: #A6D0FD`.
-- **Social links / email** → search for `href="#"` and `hello@danielaximenes.arte`
+- **Social links / email** → search for `href="#"` and `danielaximenes.arte@gmail.com`
   and replace with your real links.
 
 > Note: the header and footer are repeated in each `.html` file. If you change a nav
